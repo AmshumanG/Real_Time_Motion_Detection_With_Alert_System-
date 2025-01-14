@@ -1,0 +1,32 @@
+def find_optimal_blocks(grid, N):
+    directions = [(-1, 0), (1, 0), (0, 1), (0, -1), (-1, 1), (-1, -1), (1, -1), (1, 1)]
+    max_min_value = -1
+    optimal_blocks = []
+
+    for i in range(N):
+        for j in range(N):
+            min_value = grid[i][j]
+            for dx, dy in directions:
+                nx, ny = i + dx, j + dy
+                if 0 <= nx < N and 0 <= ny < N:
+                    min_value = min(min_value, grid[nx][ny])
+            if min_value > max_min_value:
+                max_min_value = min_value
+                optimal_blocks = [(i + 1, j + 1)]  # Converting to 1-based indexing
+            elif min_value == max_min_value:
+                optimal_blocks.append((i + 1, j + 1))
+
+    return optimal_blocks
+
+def main():
+    N = int(input())  # Reading the size of the grid
+    grid = []
+    for _ in range(N):
+        grid.append(list(map(int, input().split("#"))))  # Reading the grid and splitting by '#'
+
+    optimal_blocks = find_optimal_blocks(grid, N)
+    for block in optimal_blocks:
+        print(f"{block[0]}#{block[1]}")  # Printing the results in the correct format
+
+if __name__ == "__main__":
+    main()  # Correct function call to start the program
